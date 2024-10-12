@@ -37,3 +37,12 @@ determinant of a matrix through cofactor expansion for
 matrices of size 3x3 or less, or multiplying the
 determinant of each elementary matrice needed to find the
 inverse of the matrix when it is greater than 3x3. (W.I.P.)
+
+** FOR ALL MY JAVA PROJECTS **
+
+I use the Eclipse IDE to create all these, meaning that each
+project comes in its own Java project, including a package.
+To utilize these files, I suggest directly downloading the
+Java files from Matrices/src/matrices, removing the package
+statement at the top of each Java file, and importing them
+or copying/pasting them into whatever IDE you use.
