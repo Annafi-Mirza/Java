@@ -10,9 +10,7 @@ class.
 In the base Matrix file, you can translate 3 String
 representations of equations (x + y + z = 1, for instance),
 or basically a system of 3 equations, into an augmented
-matrix. This does have the limitation of not being able to
-directly input equations like "x + z = 2" into it, but you
-can input "x + 0y + z = 2" instead.
+matrix.
 
 In the MatrixTester file, you can utilize this Matrix file
 along with all other Matrix-related files through
