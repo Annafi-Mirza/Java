@@ -15,6 +15,21 @@ public class MatrixTester {
 	// If the user wants to create a square matrix for determinants
 	public static void createSquareMatrix() {
 		
+		int sideLength = 0;
+		boolean enteredProperly = false;
+		while (!enteredProperly) {
+			System.out.print("\nWhat should each side length be? ");
+			String sideLengthString = in.next();
+			try {
+				sideLength = Integer.parseInt(sideLengthString);
+				enteredProperly = true;
+			}
+			catch(Exception e) {
+				System.err.println("Invalid input!");
+				sideLengthString = in.next();
+			}
+		}
+		
 	} // End of createSquareMatrix method
 	
 	// If the user wants to create an augmented matrix
@@ -54,6 +69,9 @@ public class MatrixTester {
 	// Gets RRE form of matrix (solutions to system of equations) if any
 	public static void getRREForm() {
 		System.out.println("Loading RRE form...\n");
+		matrixA.getRRE();
+		System.out.println("Reduced Row Echelon Form: ");
+		System.out.println(matrixA);
 	} // End of getRREForm method
 	
 	// Gets inverse of matrix if possible
@@ -74,23 +92,40 @@ public class MatrixTester {
 		// ^ Introduction
 		
 		// Console program for all matrix operations
-		while (true) {
+		boolean programOn = true;
+		while (programOn) {
 			
 			String userMatrixChoice; // Keeps user's choice for what to do w/ matrix
+			boolean properlyDone = false; // Tracks if user makes valid inputs
 			
 			// Allows user to exit program
 			System.out.print("Do you want to continue or quit? (1/2) ");
 			String continueKey = in.next();
-			if (continueKey.equals("2")) {
-				System.out.print("See you soon!");
+			while (!properlyDone) {
+				switch (continueKey) {
+					case "1":
+						properlyDone = true;
+						break;
+					case "2":
+						programOn = false;
+						System.out.println("See you soon!");
+						properlyDone = true;
+						break;
+					default:
+						System.err.println("Not a valid option!");
+						continueKey = in.next();
+				}
+			} // End of prompting user to continue program
+			
+			if (!programOn) {
 				break;
-			}
+			} // ^ Checks if user answered "2" to question above
 			
 			// Prompts the user to create a matrix
 			System.out.print("\nFirst, do you want to create a square\n"
 					+ 			"matrix or an augmented matrix? (1/2) ");
 			userMatrixChoice = in.next();
-			boolean properlyDone = false;
+			properlyDone = false;
 			while (!properlyDone) {
 				switch(userMatrixChoice) {
 					case "1":

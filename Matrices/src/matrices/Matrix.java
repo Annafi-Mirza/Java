@@ -3,8 +3,6 @@ package matrices;
 // Remove 1st line & import into IDE
 // only if you want to use file directly
 
-import java.util.ArrayList; // Used for inserting elements in middle of strings
-
 public class Matrix {
 	
 	// INSTANTIATION
@@ -17,9 +15,11 @@ public class Matrix {
 	private static final int ARRAY_COLUMNS = 4;
 	
 	// Constructors
-	public Matrix(double[][] array) {
-		this.array = array;
+	
+	public Matrix(int sideLength) {
+		array = new double[sideLength][sideLength];
 	}
+
 	public Matrix(String line1, String line2, String line3) {
 		array = translate(line1, line2, line3);
 	}
@@ -113,6 +113,7 @@ public class Matrix {
 	private String coefficientsOneLine(String line) {
 		String newLine = ""; // Line to be returned
 		String condensed = line.replaceAll(" ", "") + " ";
+		condensed = condensed.toLowerCase();
 		// ^ Line w/o spaces & extra space at end to prevent bound exceptions
 		
 		boolean xPresent = false; // Sees if x is present or not
@@ -190,17 +191,9 @@ public class Matrix {
 					break;
 				}
 			} // ^ Finds index of 1st operator not at immediate beginning of string
-			ArrayList<String> newLineArray = new ArrayList<String>();
-			for (int j = 0; j < condensed.length() - 1; j++) {
-				newLineArray.add( condensed.substring(j, j+1) );
-			}
-			newLineArray.add(operandIndex, "+0y");
-			condensed = "";
-			for (String element : newLineArray) {
-				condensed += element;
-			}
-			// ^ Converts string to array, adds y to middle of array, 
-			// & converts back to string
+			condensed = condensed.substring(0, operandIndex) +
+					    "+0y" + condensed.substring(operandIndex);
+			// ^ Adds y variable to middle of string
 		}
 		if (!zPresent) { // If z is not present
 			int operandIndex = 0;
@@ -210,17 +203,9 @@ public class Matrix {
 					break;
 				}
 			} // ^ Finds index of = sign
-			ArrayList<String> newLineArray = new ArrayList<String>();
-			for (int j = 0; j < condensed.length() - 1; j++) {
-				newLineArray.add( condensed.substring(j, j+1) );
-			}
-			newLineArray.add(operandIndex, "+0z");
-			condensed = "";
-			for (String element : newLineArray) {
-				condensed += element;
-			}
-			// ^ Converts string to array, adds z to middle of array, 
-			// & converts back to string
+			condensed = condensed.substring(0, operandIndex) +
+					"+0z" + condensed.substring(operandIndex);
+			// Adds z variable to middle of string
 		}
 		
 		int prevVarIndex = 0; // Keep track of last variable
@@ -299,5 +284,10 @@ public class Matrix {
 		newLine += " ";
 		return newLine;
 	} // End of translateOneLine
+	
+	// GAUSS-JORDAN ELIMINIATION
+	public void getRRE() {
+		GaussJordan.reduceToRRE(array);
+	} // End of getRRE method
 
 } // End of class
