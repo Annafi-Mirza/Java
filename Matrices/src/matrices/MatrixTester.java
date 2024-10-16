@@ -15,6 +15,7 @@ public class MatrixTester {
 	// If the user wants to create a square matrix for determinants
 	public static void createSquareMatrix() {
 		
+		// Loops until user picks a numerical side length
 		int sideLength = 0;
 		boolean enteredProperly = false;
 		while (!enteredProperly) {
@@ -29,6 +30,9 @@ public class MatrixTester {
 				sideLengthString = in.next();
 			}
 		}
+		
+		matrixA = new Matrix(sideLength);
+		System.out.println(matrixA);
 		
 	} // End of createSquareMatrix method
 	
@@ -70,8 +74,10 @@ public class MatrixTester {
 	public static void getRREForm() {
 		System.out.println("Loading RRE form...\n");
 		matrixA.getRRE();
+		matrixA.cleanMatrix();
 		System.out.println("Reduced Row Echelon Form: ");
 		System.out.println(matrixA);
+		matrixA.getRRESolutions();
 	} // End of getRREForm method
 	
 	// Gets inverse of matrix if possible
@@ -146,7 +152,7 @@ public class MatrixTester {
 			properlyDone = false;
 			// If user made a square matrix
 			if (userMatrixChoice.equals("1")) {
-				System.out.println("\nNow that you have your square matrix,\n"
+				System.out.println("Now that you have your square matrix,\n"
 						+ 		   "what do you want to do with it? (1-2)\n"
 						+ 		   "(1) > Find inverse of matrix if possible.\n"
 						+ 		   "(2) > Find determinant of matrix.");

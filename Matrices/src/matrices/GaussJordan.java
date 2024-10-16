@@ -34,32 +34,32 @@ public class GaussJordan {
 						// ^ Creates new elementary matrix to track this swapping
 					} // End of swapping rows
 					
-				} // End of transporting leftmost non-zero row
-				
-				// Converts leading non-zero to leading 1
-				if (matrix[leadingOneRow][j] != 1) {
-					makeLeadingOne(matrix, i, matrix[i][j]);
-					RREsteps.add( new ElementaryMatrix( i+1, (1 / matrix[i][j]) ) );
-					// ^ Creates new elementary matrix to track this conversion
-				}
-				
-				// Zeros out column below leading 1
-				for (int x = i + 1; x < matrix.length; x++) {
-					
-					// Adds to each row w/ non-zero element under leading 1,
-					// the leading 1 element times the negative form of
-					// non-zero element
-					if (matrix[x][j] != 0) {
-						addTwoRows(matrix, x, leadingOneRow, j, matrix[x][j]);
-						RREsteps.add(new ElementaryMatrix(x+1, leadingOneRow+1, -matrix[x][j]));
-						// ^ Creates new elementary matrix to track this addition
+					// Converts leading non-zero to leading 1
+					if (matrix[leadingOneRow][j] != 1) {
+						makeLeadingOne(matrix, i, matrix[i][j]);
+						RREsteps.add( new ElementaryMatrix( i+1, (1 / matrix[i][j]) ) );
+						// ^ Creates new elementary matrix to track this conversion
 					}
 					
-				} // End of iterating through remaining rows
-				
-				// Breaks out of iteration of rows as
-				// they're all zero-ed out
-				break;
+					// Zeros out column below leading 1
+					for (int x = i + 1; x < matrix.length; x++) {
+						
+						// Adds to each row w/ non-zero element under leading 1,
+						// the leading 1 element times the negative form of
+						// non-zero element
+						if (matrix[x][j] != 0) {
+							addTwoRows(matrix, x, leadingOneRow, j, matrix[x][j]);
+							RREsteps.add(new ElementaryMatrix(x+1, leadingOneRow+1, -matrix[x][j]));
+							// ^ Creates new elementary matrix to track this addition
+						}
+						
+					} // End of iterating through remaining rows
+					
+					// Breaks out of iteration of rows as
+					// they're all zero-ed out
+					break;
+					
+				} // End of dealing with leftmost non-zero row
 				
 			} // End of iterating through columns
 			
@@ -156,5 +156,27 @@ public class GaussJordan {
 		} // End of iterating adding each pair of elements
 		
 	} // End of addTwoRows
+	
+	// Analyzes the solutions, if any, of an RRE matrix
+	public static void analyzeSolutions(double[][] matrix) {
+		
+		for (int i = 0; i < matrix.length; i++) {
+			
+			// Tracks what variable is being looked for in matrix
+			switch(i) {
+				case 0:
+					System.out.println("x = " + matrix[i][matrix[0].length - 1]);
+					break;
+				case 1:
+					System.out.println("y = " + matrix[i][matrix[0].length - 1]);
+					break;
+				case 2:
+					System.out.println("z = " + matrix[i][matrix[0].length - 1] + "\n");
+					break;
+			}
+			
+		} // End of iterating through rows
+		
+	} // End of analyzeSolutions method
 
 } // End of class
