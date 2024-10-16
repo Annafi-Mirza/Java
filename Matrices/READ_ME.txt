@@ -36,6 +36,12 @@ matrices of size 3x3 or less, or multiplying the
 determinant of each elementary matrice needed to find the
 inverse of the matrix when it is greater than 3x3. (W.I.P.)
 
+- Lastly, the ElementaryMatrix file contains the elementary
+matrices that track each change made to a matrix during
+Gauss-Jordan elimination. This file is needed for the
+GaussJordan file to run and also is important for when
+calculating the determinant of matrices greater than 3x3.
+
 ** FOR ALL MY JAVA PROJECTS **
 
 I use the Eclipse IDE to create all these, meaning that each
