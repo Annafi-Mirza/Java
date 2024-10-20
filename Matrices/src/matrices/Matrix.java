@@ -20,11 +20,13 @@ public class Matrix {
 	// Constructors
 	
 	public Matrix(int sideLength) {
+		GaussJordan.RREsteps.clear();
 		array = new double[sideLength][sideLength];
 		fillValues();
 	}
 
 	public Matrix(String line1, String line2, String line3) {
+		GaussJordan.RREsteps.clear();
 		array = translate(line1, line2, line3);
 	}
 	
@@ -292,7 +294,7 @@ public class Matrix {
 	// GAUSS-JORDAN ELIMINIATION
 	
 	public void getRRE() {
-		GaussJordan.reduceToRRE(array);
+		GaussJordan.reduceToRRE(array, 1);
 	} // End of getRRE method
 	
 	public void getRRESolutions() {
@@ -406,5 +408,17 @@ public class Matrix {
 		System.out.println();
 		
 	} // End of fillValues method
+	
+	// GETTING DETERMINANT
+	
+	public double determinant() {
+		return Determinant.getDeterminant(array);
+	} // End of determinant method
+	
+	// GETTING INVERSE
+	
+	public Object inverse() {
+		return Inverse.getInverse(array);
+	} // End of inverse method
 
 } // End of class

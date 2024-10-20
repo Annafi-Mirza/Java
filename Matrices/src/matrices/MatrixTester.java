@@ -83,11 +83,28 @@ public class MatrixTester {
 	// Gets inverse of matrix if possible
 	public static void getInverse() {
 		System.out.println("Loading inverse...\n");
+		Object inverseMatrixObject = matrixA.inverse();
+		if (!(inverseMatrixObject instanceof Integer)) {
+			double[][] inverseMatrix = (double[][])inverseMatrixObject;
+			
+			// Prints out the inverse matrix
+			String finalLine = "";
+			for (int i = 0; i < inverseMatrix.length; i++) {
+				for (int j = 0; j < inverseMatrix[0].length; j++) {
+					// Prints out each element of each row
+					finalLine += inverseMatrix[i][j] + " ";
+				}
+				// Goes to next row
+				finalLine += "\n";
+			}
+			System.out.println(finalLine);
+		}
 	} // End of getInverse method
 	
 	// Gets determinant of matrix
 	public static void getDeterminant() {
-		System.out.println("Loading determinant...\n");
+		System.out.println("Loading determinant...");
+		System.out.println("Your determinant: " + matrixA.determinant() + "\n");
 	} // End of getDeterminant method
 	
 	// MAIN METHOD
