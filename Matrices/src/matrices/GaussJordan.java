@@ -1,15 +1,20 @@
 package matrices;
 
-import java.util.ArrayList; // Manage elementary matrices
+// Because the 2D array already takes up quite a bit of
+// space, a linked list is used here instead to save a
+// bit on storage. Also, the O(N) of linked lists'
+// insertion or deletion methods doesn't matter here b/c
+// it will be treated like a queue or stack
+import java.util.LinkedList; // Manage elementary matrices
 
 public class GaussJordan {
 	
 	// Keeps track of changes made to matrix during Gauss-Jordan elimination
 	// to eventually calculate the determinant if need be
-	public static ArrayList<ElementaryMatrix> RREsteps = new ArrayList<ElementaryMatrix>();
+	public static LinkedList<ElementaryMatrix> RREsteps = new LinkedList<ElementaryMatrix>();
 	
 	// Reduce a matrix to RRE form to grab solutions to a system of equations
-	public static double[][] reduceToRRE(double[][] matrix) {
+	public static double[][] reduceToRRE(double[][] matrix, int whetherInverse) {
 		
 		// DOWNWARD ALGORITHM
 		
@@ -36,20 +41,20 @@ public class GaussJordan {
 					
 					// Converts leading non-zero to leading 1
 					if (matrix[leadingOneRow][j] != 1) {
-						makeLeadingOne(matrix, i, matrix[i][j]);
-						RREsteps.add( new ElementaryMatrix( i+1, (1 / matrix[i][j]) ) );
+						RREsteps.add( new ElementaryMatrix( leadingOneRow+1, (1.0 / matrix[leadingOneRow][j]) ) );
+						makeLeadingOne(matrix, leadingOneRow, matrix[leadingOneRow][j]);
 						// ^ Creates new elementary matrix to track this conversion
 					}
 					
 					// Zeros out column below leading 1
-					for (int x = i + 1; x < matrix.length; x++) {
+					for (int x = leadingOneRow + 1; x < matrix.length; x++) {
 						
 						// Adds to each row w/ non-zero element under leading 1,
 						// the leading 1 element times the negative form of
 						// non-zero element
 						if (matrix[x][j] != 0) {
-							addTwoRows(matrix, x, leadingOneRow, j, matrix[x][j]);
 							RREsteps.add(new ElementaryMatrix(x+1, leadingOneRow+1, -matrix[x][j]));
+							addTwoRows(matrix, x, leadingOneRow, j, matrix[x][j]);
 							// ^ Creates new elementary matrix to track this addition
 						}
 						
@@ -74,6 +79,17 @@ public class GaussJordan {
 		// UPWARD ALGORITHM
 		
 		int d = matrix[0].length - 1;
+		if (whetherInverse == 2) {
+			d = (matrix[0].length / 2) - 1;
+		}
+		
+		// Condition is to prevent situations where
+		// 1z = 1 and it recognizes the 2nd 1 as the
+		// leading 1
+		if (matrix[leadingOneRow - 1][d - 1] == 1.0) {
+			d = d - 1;
+		}
+
 		int bottomLeadingOne = 0; // Position of bottom-most
 		// leading 1
 		boolean leadingOneFound = false; // Tracks if bottom-most
@@ -92,8 +108,8 @@ public class GaussJordan {
 							// Adds to row above, the bottom leading 1 row
 							// times the negative form of the row above's
 							// element
-							addTwoRows(matrix, e, c, 0, matrix[e][d]);
 							RREsteps.add( new ElementaryMatrix(e, c, -matrix[e][d]) );
+							addTwoRows(matrix, e, c, 0, matrix[e][d]);
 							// ^ Creates a new elementary matrix to track this addition
 						}
 					} // End of zero-ing out above bottom-most leading 1
