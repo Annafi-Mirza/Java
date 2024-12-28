@@ -7,21 +7,6 @@ public class Rank {
 		// Array containing info for matrix like its rank
 		String[] outputArray = new String[3];
 		
-		/**
-		// DETERMINE LINEAR INDEPENDENCE OF COLUMN VECTORS
-		
-		// Iterate through columns
-		for (int j = 0; j < inputArray[0].length; j++) {
-			
-			// Iterate through each column vector to check
-			// for 0-vectors
-			for (int i = 0; i < inputArray.length; i++) {
-				
-			}
-			
-		}
-		**/
-		
 		// Get num. of pivot col. by getting RRE form
 		GaussJordan.reduceToRRE(inputArray, 1);
 		
