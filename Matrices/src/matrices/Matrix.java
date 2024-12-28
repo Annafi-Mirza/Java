@@ -30,6 +30,12 @@ public class Matrix {
 		array = translate(line1, line2, line3);
 	}
 	
+	public Matrix(int sideLength1, int sideLength2) {
+		GaussJordan.RREsteps.clear();
+		array = new double[sideLength1][sideLength2];
+		fillColumnVectors();
+	}
+	
 	// TO STRING
 	
 	// Prints out a matrix
@@ -409,6 +415,91 @@ public class Matrix {
 		
 	} // End of fillValues method
 	
+	// CREATING RECTANGULAR MATRIX
+	
+	private void fillColumnVectors() {
+		
+		System.out.println("\nEnter the values for each column vector.\n"
+				+ "For example, '1, 2, 3'\n");
+		
+		// Tracks user input
+		Scanner in = new Scanner(System.in);
+		String userValuesString;
+		
+		for (int i = 0; i < array[0].length; i++) {
+			
+			// Tracks user's numerical values
+			double[] userValues = new double[array.length];
+			
+			System.out.print("Enter all " + array.length + " values for column " +
+			(i + 1) + ".\nPut a comma between each value: ");
+			
+			// Ensures that user enters proper input
+			while (true) {
+				
+				// Records user input
+				userValuesString = in.next() + in.nextLine();
+				// Removes any spaces from user input
+				userValuesString = userValuesString.replaceAll(" ", "");
+				
+				// Tracks number of commas in user input
+				// which correlates to number of elements
+				// in user input
+				int amountOfCommas = userValuesString.length() - 
+						userValuesString.replaceAll(",", "").length();
+				
+				// If the user did not input correct number of elements
+				if ( (array.length - 1) != (amountOfCommas) ) {
+					System.err.println("Not the correct amount of values!");
+				}
+				// If the user entered correct number of elements
+				else {
+					break;
+				}
+			}
+			
+			userValuesString += ",";
+			
+			// Tracks beginning of each element in user input
+			int beginningIndex = 0;
+			// Tracks position in array containing user elements
+			int arrayIndex = 0;
+			// Adds user elements to array
+			for (int index = 0; index < userValuesString.length(); index++) {
+				// When an element is found by detecting
+				// its corresponding comma
+				if (userValuesString.charAt(index) == ',') {
+					// Captures user element from larger string
+					String userValueString = userValuesString.substring(beginningIndex, index);
+					// Normally converts user element to double
+					try {
+						userValues[arrayIndex] = Double.parseDouble(userValueString);
+					}
+					// If user wrote letters instead of numbers,
+					// element is set to 0
+					catch(Exception e) {
+						userValues[arrayIndex] = 0.0;
+					}
+					// Next array position is to be filled
+					++arrayIndex;
+					// beginningIndex starts from next element
+					beginningIndex = index + 1;
+				}
+			}
+			
+			// Inserts each element in each position along row
+			for (int j = 0; j < array.length; j++) {
+				
+				array[j][i] = userValues[j];
+				
+			} // End of iterating through columns
+			
+		} // End of iterating through rows
+		
+		System.out.println();
+		
+	} // End of fillColumnVectors method
+	
 	// GETTING DETERMINANT
 	
 	public double determinant() {
@@ -420,5 +511,10 @@ public class Matrix {
 	public Object inverse() {
 		return Inverse.getInverse(array);
 	} // End of inverse method
+	
+	// GETTING RANK
+	public String[] rank() {
+		return Rank.getRank(array);
+	} // End of rank method
 
 } // End of class

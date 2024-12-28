@@ -68,6 +68,43 @@ public class MatrixTester {
 	
 	} // End of createAugmentedMatrix method
 	
+	public static void createRectangularMatrix() {
+		
+		// Loops until user picks a numerical side length
+				int sideLength1 = 0, sideLength2 = 0;
+				boolean enteredProperly = false;
+				while (!enteredProperly) {
+					System.out.print("\nHow many rows should there be in each column vector? ");
+					String sideLengthString1 = in.next();
+					try {
+						sideLength1 = Integer.parseInt(sideLengthString1);
+						enteredProperly = true;
+					}
+					catch(Exception e) {
+						System.err.println("Invalid input!");
+						sideLengthString1 = in.next();
+					}
+				}
+				
+				enteredProperly = false;
+				while (!enteredProperly) {
+					System.out.print("\nGood, and how many column vectors should there be? ");
+					String sideLengthString2 = in.next();
+					try {
+						sideLength2 = Integer.parseInt(sideLengthString2);
+						enteredProperly = true;
+					}
+					catch(Exception e) {
+						System.err.println("Invalid input!");
+						sideLengthString2 = in.next();
+					}
+				}
+				
+				matrixA = new Matrix(sideLength1, sideLength2);
+				System.out.println(matrixA);
+		
+	} // End of createRectangularMatrix method
+	
 	// MATRIX FUNCTIONS
 	
 	// Gets RRE form of matrix (solutions to system of equations) if any
@@ -106,6 +143,15 @@ public class MatrixTester {
 		System.out.println("Loading determinant...");
 		System.out.println("Your determinant: " + matrixA.determinant() + "\n");
 	} // End of getDeterminant method
+	
+	// Gets rank and nullity of matrix
+	public static void getRank() {
+		System.out.println("Loading rank and nullity...\n");
+		for (String line : matrixA.rank()) {
+			System.out.println(line);
+		}
+		System.out.println();
+	}
 	
 	// MAIN METHOD
 	
@@ -146,7 +192,8 @@ public class MatrixTester {
 			
 			// Prompts the user to create a matrix
 			System.out.print("\nFirst, do you want to create a square\n"
-					+ 			"matrix or an augmented matrix? (1/2) ");
+					+ 			"matrix, an augmented matrix, or a \n"
+					+			"matrix of column vectors? (1/2/3) ");
 			userMatrixChoice = in.next();
 			properlyDone = false;
 			while (!properlyDone) {
@@ -157,6 +204,10 @@ public class MatrixTester {
 						break;
 					case "2":
 						createAugmentedMatrix();
+						properlyDone = true;
+						break;
+					case "3":
+						createRectangularMatrix();
 						properlyDone = true;
 						break;
 					default:
@@ -191,7 +242,7 @@ public class MatrixTester {
 				} // End of manipulating square matrix
 			}
 			// If user made an augmented matrix
-			else {
+			else if (userMatrixChoice.equals("2")) {
 				System.out.print("Do you want to reduce your matrix to RRE form\n"
 						+ 		 "and, thus, gain the solutions (if any) to your\n"
 						+ 		 "system? (Yes/No, 1/2) ");
@@ -209,6 +260,30 @@ public class MatrixTester {
 					default:
 						System.err.println("Not a valid option!");
 						userMatrixChoice = in.next();
+					}
+				}
+			}
+			
+			// If user made a rectangular matrix
+			else {
+				System.out.print("Do you want to determine whether your\n"
+						+ 		 "column vectors are linearly independent,\n"
+						+ 		 "and the resulting matrix's rank and nullity?\n"
+						+ 		 "(Yes/No, 1/2) ");
+				userMatrixChoice = in.next();
+				while (!properlyDone) {
+					switch(userMatrixChoice) {
+						case "1":
+							getRank();
+							properlyDone = true;
+							break;
+						case "2":
+							System.out.println("Okay!\n");
+							properlyDone = true;
+							break;
+						default:
+							System.err.println("Not a valid option!");
+							userMatrixChoice = in.next();
 					}
 				}
 			}
